@@ -2,19 +2,18 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 function Result() {
-  const location = useLocation(); // Test.js에서 전달된 데이터를 가져옴
-  const { answers } = location.state || { answers: [] };
+  const location = useLocation();
+  const { mbti } = location.state || { mbti: "Unknown" };
 
   return (
     <div>
-      <h1>Test Results</h1>
-      <ul>
-        {answers.map((ans, index) => (
-          <li key={index}>
-            Question {ans.questionId}: {ans.answer}
-          </li>
-        ))}
-      </ul>
+      <h1>Your MBTI Result</h1>
+      <h2>{mbti}</h2>
+      <img
+        src={`/images/${mbti}.png`} // MBTI 별 이미지 파일
+        alt={`${mbti} 이미지`}
+        style={{ width: "300px", height: "300px" }}
+      />
     </div>
   );
 }

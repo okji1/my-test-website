@@ -79,13 +79,30 @@ const questions = [
     }
   ];
   
-  
   function Test() {
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문의 인덱스
-    const [answers, setAnswers] = useState([]); // 사용자 응답 저장
-    const navigate = useNavigate(); // 페이지 이동 함수
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [answers, setAnswers] = useState([]);
+    const navigate = useNavigate();
   
-    // 응답 처리 함수
+    // MBTI 결과 계산 함수
+    const calculateMBTI = (answers) => {
+      const counts = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+  
+      answers.forEach((ans) => {
+        const result = questions.find((q) => q.id === ans.questionId)?.resultMapping[ans.answer];
+        if (result) {
+          counts[result]++;
+        }
+      });
+  
+      return (
+        (counts.E >= counts.I ? "E" : "I") +
+        (counts.S >= counts.N ? "S" : "N") +
+        (counts.T >= counts.F ? "T" : "F") +
+        (counts.J >= counts.P ? "J" : "P")
+      );
+    };
+  
     const handleAnswer = (answer) => {
       const newAnswer = { questionId: questions[currentQuestionIndex].id, answer };
   
@@ -95,24 +112,23 @@ const questions = [
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
-          // 상태가 업데이트된 값을 기반으로 결과 페이지로 이동
-          navigate("/result", { state: { answers: updatedAnswers } });
+          const mbtiResult = calculateMBTI(updatedAnswers);
+          navigate("/result", { state: { mbti: mbtiResult } });
         }
   
-        return updatedAnswers; // 업데이트된 상태 반환
+        return updatedAnswers;
       });
     };
   
     return (
       <div className="test">
         <Question
-          question={questions[currentQuestionIndex].question} // 현재 질문 텍스트
-          options={questions[currentQuestionIndex].options} // 현재 질문의 선택지
-          onAnswer={handleAnswer} // 응답 처리 함수
+          question={questions[currentQuestionIndex].question}
+          options={questions[currentQuestionIndex].options}
+          onAnswer={handleAnswer}
         />
       </div>
     );
   }
   
   export default Test;
-  
