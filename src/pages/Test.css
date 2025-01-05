@@ -25,3 +25,28 @@
     background-color: #0056b3;
   }
   
+
+  .progress-container {
+    margin: 20px 0;
+    position: relative;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s ease;
+  }
+  
+  .progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+  }

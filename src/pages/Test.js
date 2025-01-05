@@ -120,15 +120,25 @@ const questions = [
       });
     };
   
-    return (
-      <div className="test">
-        <Question
-          question={questions[currentQuestionIndex].question}
-          options={questions[currentQuestionIndex].options}
-          onAnswer={handleAnswer}
-        />
+      // 진행률 계산
+  const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+  return (
+    <div className="test">
+      <div className="progress-container">
+        {/* 진행률 바 */}
+        <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+        <p className="progress-text">
+          {currentQuestionIndex + 1} / {questions.length} 질문 완료
+        </p>
       </div>
-    );
-  }
-  
-  export default Test;
+      <Question
+        question={questions[currentQuestionIndex].question}
+        options={questions[currentQuestionIndex].options}
+        onAnswer={handleAnswer}
+      />
+    </div>
+  );
+}
+
+export default Test;
